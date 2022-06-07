@@ -1,9 +1,11 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/task.dart';
 import '../widgets/task_list.dart';
 import '../widgets/task_title.dart';
 import '../screens/add_task_screen.dart';
+import '../models/task_data.dart';
 
 class TaskScreen extends StatefulWidget {
   const TaskScreen({Key? key}) : super(key: key);
@@ -14,12 +16,6 @@ class TaskScreen extends StatefulWidget {
 
 class _TaskScreenState extends State<TaskScreen> {
 
-  List<Task> tasks = [
-    Task(name: 'Buy milk', isDone: true),
-    Task(name: 'Buy egg', isDone: true),
-    Task(name: 'Buy bread', isDone: true),
-    Task(name: 'Buy chicken', isDone: true),
-  ];
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +29,7 @@ class _TaskScreenState extends State<TaskScreen> {
         ),
         context: context,
         builder: (BuildContext context) {
-          return  AddTaskScreen(
-            addTaskCallBack: (val) {
-              if (kDebugMode) {
-                print(val);
-              }
-              setState((){
-                tasks.add(Task(name: val));
-              });
-              Navigator.pop(context);
-            },
-          );
+          return  AddTaskScreen();
         },
       );
         },
@@ -79,7 +65,7 @@ class _TaskScreenState extends State<TaskScreen> {
                       fontWeight: FontWeight.w700),
                 ),
                 Text(
-                  '${tasks.length} ${tasks.length == 1 ? 'Task' : 'Tasks' }',
+                  '${Provider.of<TaskData>(context).taskCount} ${Provider.of<TaskData>(context).taskCount == 1 ? 'Task' : 'Tasks' }',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18.0,
@@ -97,9 +83,7 @@ class _TaskScreenState extends State<TaskScreen> {
                   borderRadius: BorderRadius.only(
                       topLeft: Radius.circular(20.0),
                       topRight: Radius.circular(20.0))),
-              child:  TaskList(
-                tasks: tasks,
-              ),
+              child:  TaskList(),
             ),
           ),
         ],

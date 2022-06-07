@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
-
 class TaskTitle extends StatelessWidget {
-
   bool isChecked = false;
   final String taskTitle;
   final Function checkBoxCallBack;
-
+  final Function deleteCallBack;
   // void checkBoxCallBack(bool? checkboxState) {
   //   setState(() {
   //     isChecked = checkboxState!;
@@ -14,13 +12,21 @@ class TaskTitle extends StatelessWidget {
   // }
   //
 
-  TaskTitle({required this.isChecked , required this.taskTitle , required this.checkBoxCallBack});
+  TaskTitle({
+    required this.isChecked,
+    required this.taskTitle,
+    required this.checkBoxCallBack,
+    required this.deleteCallBack,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      onLongPress: () {
+        deleteCallBack();
+      },
       title: Text(
-        'This is a task',
+        taskTitle ,
         style: TextStyle(
           decoration: isChecked ? TextDecoration.lineThrough : null,
         ),
@@ -30,8 +36,7 @@ class TaskTitle extends StatelessWidget {
           value: isChecked,
           onChanged: (val) {
             checkBoxCallBack(val);
-          }
-      ),
+          }),
     );
   }
 }
